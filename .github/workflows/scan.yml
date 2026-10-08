@@ -1,0 +1,57 @@
+name: Run Website Scan
+on:
+  workflow_dispatch:
+    inputs:
+      website:
+        description: 'Website URL to test (e.g. https://example.com)'
+        required: true
+        default: 'https://example.com'
+      max_links:
+        description: 'Maximum same-host links to check (0-50)'
+        required: true
+        default: '20'
+permissions:
+  contents: write
+concurrency:
+  group: webguard-scan
+  cancel-in-progress: false
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run browser checks
+        env:
+          SCAN_URL: ${{ inputs.website }}
+          MAX_LINKS: ${{ inputs.max_links }}
+        run: |
+          python - <<'PY'
+          import os
+          from webguard.checker import check_site, save_result
+          try:
+              count = int(os.environ['MAX_LINKS'])
+          except ValueError:
+              count = 20
+          result = check_site(os.environ['SCAN_URL'], max_links=max(0,min(count,50)))
+          save_result(result)
+          print('Scan result:', result['status'], result.get('error') or '')
+          PY
+      - name: Commit scan data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/latest.json data/history.json
+          if [ -f data/latest.png ]; then git add data/latest.png; fi
+          if ! git diff --cached --quiet; then
+            git commit -m "Update WebGuard scan results"
+            git push
+          fi

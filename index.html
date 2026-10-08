@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0a1020">
+    <title>WebGuard | Website Quality Monitor</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <div class="shell">
+        <aside class="sidebar">
+            <div class="brand"><span class="brand-mark">W</span><span>WebGuard<small>QUALITY MONITOR</small></span>
+            </div>
+            <div class="nav-title">WORKSPACE</div><a class="nav active" href="#overview">◈ &nbsp; Overview</a><a
+                class="nav" href="#history">◷ &nbsp; Scan history</a><a class="nav" href="#details">▤ &nbsp; Details</a>
+            <div class="side-bottom">Powered by Selenium<br><span>Hosted on GitHub Pages</span></div>
+        </aside>
+        <main class="content">
+            <header class="topbar">
+                <div>
+                    <div class="eyebrow">MONITORING / OVERVIEW</div>
+                    <h1>Website health, at a glance.</h1>
+                    <p>Automated browser testing with Python, Selenium and GitHub Actions.</p>
+                </div><span class="live-pill"><i></i> GitHub-hosted</span>
+            </header>
+            <section class="scan-panel" id="overview">
+                <div>
+                    <div class="panel-kicker">NEW SCAN</div>
+                    <h2>Test a website</h2>
+                    <p>Enter a website to prepare a new automated scan.</p>
+                </div>
+                <form id="scan-form" class="scan-form"><label for="site-url">WEBSITE URL</label>
+                    <div class="input-row"><input id="site-url" type="url" placeholder="https://example.com" required
+                            value="https://example.com"><button type="submit">Prepare scan ↗</button></div>
+                </form>
+                <div id="scan-instructions" class="instructions" hidden></div>
+            </section>
+            <div class="section-heading">
+                <h2>Latest scan</h2><span id="updated">Waiting for results</span>
+            </div>
+            <section class="metrics">
+                <article class="metric">
+                    <div class="metric-label">SCAN STATUS</div>
+                    <div id="status" class="metric-value">—</div>
+                    <div class="metric-foot">Automated checks</div>
+                </article>
+                <article class="metric">
+                    <div class="metric-label">HTTP RESPONSE</div>
+                    <div id="http" class="metric-value">—</div>
+                    <div class="metric-foot">Server response code</div>
+                </article>
+                <article class="metric">
+                    <div class="metric-label">PAGE LOAD</div>
+                    <div id="speed" class="metric-value">—</div>
+                    <div class="metric-foot">Browser navigation time</div>
+                </article>
+                <article class="metric">
+                    <div class="metric-label">BROKEN LINKS</div>
+                    <div id="broken" class="metric-value">—</div>
+                    <div class="metric-foot"><span id="links">0</span> internal links checked</div>
+                </article>
+            </section>
+            <section class="two-col">
+                <article class="panel" id="details">
+                    <div class="panel-header">
+                        <div>
+                            <div class="panel-kicker">INSPECTION</div>
+                            <h2>Scan details</h2>
+                        </div><span id="result-badge" class="subtle-tag">No scan yet</span>
+                    </div>
+                    <dl class="details">
+                        <dt>Requested URL</dt>
+                        <dd id="requested">—</dd>
+                        <dt>Final URL</dt>
+                        <dd id="final-url">—</dd>
+                        <dt>Page title</dt>
+                        <dd id="title">—</dd>
+                        <dt>Last checked</dt>
+                        <dd id="checked">—</dd>
+                        <dt>Errors</dt>
+                        <dd id="error">None reported</dd>
+                    </dl>
+                </article>
+                <article class="panel screenshot-panel">
+                    <div class="panel-header">
+                        <div>
+                            <div class="panel-kicker">VISUAL CHECK</div>
+                            <h2>Browser screenshot</h2>
+                        </div>
+                    </div>
+                    <div id="shot-placeholder" class="shot-placeholder">Screenshot appears after your first scan.</div>
+                    <img id="screenshot" alt="Screenshot from the latest browser scan" hidden>
+                </article>
+            </section>
+            <section class="panel" id="history">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-kicker">ACTIVITY</div>
+                        <h2>Recent scan history</h2>
+                    </div><button id="refresh" class="secondary-button">↻ Refresh</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>WEBSITE</th>
+                                <th>DATE</th>
+                                <th>STATUS</th>
+                                <th>HTTP</th>
+                                <th>LOAD TIME</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body">
+                            <tr>
+                                <td colspan="5" class="empty">No scan history yet. Start your first scan.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <footer>WebGuard · Open-source portfolio project · Data refreshes from GitHub Pages</footer>
+        </main>
+    </div>
+    <script src="assets/app.js"></script>
+</body>
+
+</html>
